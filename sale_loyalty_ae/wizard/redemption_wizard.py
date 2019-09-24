@@ -16,7 +16,8 @@ class RedemptionSheet(models.TransientModel):
     def generate_sheet(self):
         value = 0
         for c in self.env['loyalty.points.value.cockpit'].search([]):
-            if self.start_date  <= c.start_date and self.end_date >= c.end_date and c.end_date >= self.start_date:
+            # if self.start_date  <= c.start_date and self.end_date >= c.end_date and c.end_date >= self.start_date:
+            if (self.start_date  >= c.start_date) and (self.end_date <= c.end_date):
                 for line in c.cockpit_line:
                     if self.partner_id.loyalty_points >= line.min_points and  self.partner_id.loyalty_points <= line.max_points:
                         value = line.value
@@ -25,7 +26,6 @@ class RedemptionSheet(models.TransientModel):
             'points': self.partner_id.loyalty_points,
             'redemption_value': value,
             })
-            # 'redemption_value': self.partner_id.loyalty_points * value,
         self.env['loyalty.earning.report'].search([('partner_id', '=', self.partner_id.id)]).write({'status': 'redeemed'})
         self.partner_id.loyalty_points = 0
 
