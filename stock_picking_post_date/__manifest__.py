@@ -12,7 +12,7 @@ Set Effective Date on Stock Picking
 
 Set Effective Date on Stock Picking
 """,
-    'depends': ['stock', 'mrp'],
+    'depends': ['stock'],
     'data': [
         'views/postdate_view.xml',
     ],
