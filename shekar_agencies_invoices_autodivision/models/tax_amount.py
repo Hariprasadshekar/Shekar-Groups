@@ -19,7 +19,7 @@ class SaleOrder(models.Model):
 
             cur_major = ''
             cur_minor = ''
-            
+
             if line.pricelist_id.currency_id.name == 'USD':
                 cur_major = 'US Dollars'
                 cur_minor = 'Cents'
@@ -138,15 +138,3 @@ class SaleOrder(models.Model):
                     number_fract = num_to_wrd_INTL(number[1])+cur_minor
 
             line.amount_in_words = number_whole+number_fract+' Only'
-
-
-# class Productpackagings(models.Model):
-#     _inherit = "product.product"
-
-#     z_contained_qty=fields.Float("Contained quantity",compute="check_contained_qty")
-
-#     @api.multi
-#     @api.depends('product_tmpl_id')
-#     def check_contained_qty(self):
-#         for line in self:
-#             line.z_contained_qty = self.env['product.packaging'].browse([('product_id','=',line.id)]).qty
