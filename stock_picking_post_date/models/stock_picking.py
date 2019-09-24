@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import api, fields, models
+from odoo import api, fields, models, _
 
 
 class StockPicking(models.Model):
@@ -11,12 +11,8 @@ class StockPicking(models.Model):
     @api.multi
     def action_done(self):
         res = super(StockPicking, self).action_done()
-        for picking in self.filtered(lambda p: p.post_date):
+        for picking in self:
             if picking.post_date:
-                stock_moves = self.env['stock.move'].search([('reference', '=', picking.name)])
-                stock_move_lines = self.env['stock.move.line'].search([('reference', '=', picking.name)])
-                account_moves = self.env['account.move'].search([('ref', '=', picking.name)])
-                stock_moves.write({'date': picking.post_date})
-                stock_move_lines.write({'date': picking.post_date})
-                account_moves.write({'date': picking.post_date})
+                self.write({'date_done': picking.post_date})
         return res
+
