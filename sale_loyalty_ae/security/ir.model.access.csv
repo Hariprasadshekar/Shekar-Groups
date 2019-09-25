@@ -1,0 +1,7 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_loyalty_program,access_loyalty_program,model_loyalty_program,base.group_user,1,1,1,1
+access_loyalty_program_line,access_loyalty_program_line,model_loyalty_program_line,base.group_user,1,1,1,1
+access_loyalty_points_value_cockpit,access_loyalty_points_value_cockpit,model_loyalty_points_value_cockpit,base.group_user,1,1,1,1
+ access_loyalty_points_value_cockpit_line,access_loyalty_points_value_cockpit_line,model_loyalty_points_value_cockpit_line,base.group_user,1,1,1,1
+ access_loyalty_earning_report,access_loyalty_earning_report,model_loyalty_earning_report,base.group_user,1,1,1,1
+ access_loyalty_earning_report_product_qty,access_loyalty_earning_report_product_qty,model_loyalty_earning_report_product_qty,base.group_user,1,1,1,1
