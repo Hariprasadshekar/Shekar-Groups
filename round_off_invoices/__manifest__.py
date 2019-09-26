@@ -1,3 +1,33 @@
+{
+    'name': 'Round Off Invoice Amount',
+    'version': '12.0',
+    'summary': 'Allows Rounding on Invoice Amount',
+    'description': 'Invoice amount is rounded to their nearest digits excluding the decimal part',
+    'category': 'Accounting',
+    'author': 'Cybrosys Techno Solutions',
+    'website': "https://www.cybrosys.com",
+    'company': 'Cybrosys Techno Solutions',
+    'maintainer': 'Cybrosys Techno Solutions',
+    'depends': ['base', 'account'],
+    'data': [
+        'views/round_off_view.xml',
+    ],
+    'license': 'AGPL-3',
+    'images': ['static/description/banner.jpg'],
+    'installable': True,
+    'auto_install': False,
+    'application': False,
+}
+
+
+
+
+
+
+
+
+
+
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
@@ -21,23 +51,3 @@
 #
 ##############################################################################
 
-{
-    'name': 'Round Off Invoice Amount',
-    'version': '10.0.1.0.0',
-    'summary': 'Allows Rounding on Invoice Amount',
-    'description': 'Invoice amount is rounded to their nearest digits excluding the decimal part',
-    'category': 'Accounting',
-    'author': 'Cybrosys Techno Solutions',
-    'website': "https://www.cybrosys.com",
-    'company': 'Cybrosys Techno Solutions',
-    'maintainer': 'Cybrosys Techno Solutions',
-    'depends': ['base', 'account'],
-    'data': [
-        'views/round_off_view.xml',
-    ],
-    'license': 'AGPL-3',
-    'images': ['static/description/banner.jpg'],
-    'installable': True,
-    'auto_install': False,
-    'application': False,
-}
