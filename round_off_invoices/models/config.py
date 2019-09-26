@@ -28,9 +28,9 @@ from odoo import fields, models, api, _
 
 
 class RoundOffSetting(models.TransientModel):
-    _inherit = 'account.config.settings'
+    _inherit = 'res.config.settings'
 
-    round_off = fields.Boolean(string='Allow rounding of invoice amount', help="Allow rounding of invoice amount")
+    round_off = fields.Boolean(string='Allow rounding of invoice amount', help="Allow rounding of invoice amount", force_save=True)
     round_off_account = fields.Many2one('account.account', string='Round Off Account')
 
     @api.multi
@@ -48,9 +48,10 @@ class AccountRoundOff(models.Model):
     round_active = fields.Boolean(compute='get_round_active')
 
     def get_round_active(self):
-        ir_values = self.env['ir.values']
-        for i in self:
-            i.round_active = ir_values.get_default('account.config.settings', 'round_off')
+        settings = self.env['res.config.settings'].search([],order="id desc",limit=1)
+        for line in self:
+            line.round_active = settings.round_off_account
+
 
     @api.one
     @api.depends('invoice_line_ids.price_subtotal', 'tax_line_ids.amount', 'currency_id', 'company_id',
@@ -60,7 +61,7 @@ class AccountRoundOff(models.Model):
         self.amount_tax = sum(line.amount for line in self.tax_line_ids)
         self.rounded_total = round(self.amount_untaxed + self.amount_tax)
         self.amount_total = self.amount_untaxed + self.amount_tax
-        self.round_off_value = self.rounded_total - (self.amount_untaxed + self.amount_tax)
+        self.round_off_value = self.amount_total - round(self.rounded_total)
         amount_total_company_signed = self.amount_total
         amount_untaxed_signed = self.amount_untaxed
         if self.currency_id and self.company_id and self.currency_id != self.company_id.currency_id:
