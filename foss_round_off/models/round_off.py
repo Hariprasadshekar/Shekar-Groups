@@ -1,43 +1,9 @@
 # -*- coding: utf-8 -*-
-##############################################################################
-#
-#    Cybrosys Technologies Pvt. Ltd.
-#    Copyright (C) 2017-TODAY Cybrosys Technologies(<https://www.cybrosys.com>).
-#    Author: Treesa Maria Jude(<https://www.cybrosys.com>)
-#    you can modify it under the terms of the GNU LESSER
-#    GENERAL PUBLIC LICENSE (LGPL v3), Version 3.
-#
-#    It is forbidden to publish, distribute, sublicense, or sell copies
-#    of the Software or modified copies of the Software.
-#
-#    This program is distributed in the hope that it will be useful,
-#    but WITHOUT ANY WARRANTY; without even the implied warranty of
-#    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-#    GNU LESSER GENERAL PUBLIC LICENSE (LGPL v3) for more details.
-#
-#    You should have received a copy of the GNU LESSER GENERAL PUBLIC LICENSE
-#    GENERAL PUBLIC LICENSE (LGPL v3) along with this program.
-#    If not, see <https://www.gnu.org/licenses/>.
-#
-##############################################################################
-
+# Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo.tools import float_is_zero
 from odoo.exceptions import UserError
 from odoo import fields, models, api, _
-
-
-class RoundOffSetting(models.TransientModel):
-    _inherit = 'res.config.settings'
-
-    round_off = fields.Boolean(string='Allow rounding of invoice amount', help="Allow rounding of invoice amount", force_save=True)
-    round_off_account = fields.Many2one('account.account', string='Round Off Account')
-
-    @api.multi
-    def set_round_off(self):
-        ir_values_obj = self.env['ir.values']
-        ir_values_obj.sudo().set_default('account.config.settings', "round_off", self.round_off)
-        ir_values_obj.sudo().set_default('account.config.settings', "round_off_account", self.round_off_account.id)
 
 
 class AccountRoundOff(models.Model):
@@ -45,23 +11,19 @@ class AccountRoundOff(models.Model):
 
     round_off_value = fields.Float(compute='_compute_amount', string='Round off amount')
     rounded_total = fields.Float(compute='_compute_amount', string='Rounded Total')
-    round_active = fields.Boolean(compute='get_round_active')
-
-    def get_round_active(self):
-        settings = self.env['res.config.settings'].search([],order="id desc",limit=1)
-        for line in self:
-            line.round_active = settings.round_off_account
-
+    round_active = fields.Boolean(string="Round Active")
 
     @api.one
-    @api.depends('invoice_line_ids.price_subtotal', 'tax_line_ids.amount', 'currency_id', 'company_id',
-                 'date_invoice', 'type')
+    @api.depends('invoice_line_ids.price_subtotal', 'tax_line_ids.amount', 'tax_line_ids.amount_rounding',
+                 'currency_id', 'company_id', 'date_invoice', 'type')
     def _compute_amount(self):
+        round_curr = self.currency_id.round
         self.amount_untaxed = sum(line.price_subtotal for line in self.invoice_line_ids)
-        self.amount_tax = sum(line.amount for line in self.tax_line_ids)
+        self.amount_tax = sum(round_curr(line.amount_total) for line in self.tax_line_ids)
+
         self.rounded_total = round(self.amount_untaxed + self.amount_tax)
         self.amount_total = self.amount_untaxed + self.amount_tax
-        self.round_off_value = self.amount_total - round(self.rounded_total)
+        self.round_off_value = self.rounded_total - (self.amount_untaxed + self.amount_tax)
         amount_total_company_signed = self.amount_total
         amount_untaxed_signed = self.amount_untaxed
         if self.currency_id and self.company_id and self.currency_id != self.company_id.currency_id:
@@ -83,7 +45,7 @@ class AccountRoundOff(models.Model):
         residual_company_signed = 0.0
         sign = self.type in ['in_refund', 'out_refund'] and -1 or 1
         for line in self.sudo().move_id.line_ids:
-            if line.account_id.internal_type in ('receivable', 'payable'):
+            if line.account_id == self.account_id:
                 residual_company_signed += line.amount_residual
                 if line.currency_id == self.currency_id:
                     residual += line.amount_residual_currency if line.currency_id else line.amount_residual
@@ -93,7 +55,7 @@ class AccountRoundOff(models.Model):
                     residual += from_currency.compute(line.amount_residual, self.currency_id)
         self.residual_company_signed = abs(residual_company_signed) * sign
         self.residual_signed = abs(residual) * sign
-        if self.round_active is True and self.type == 'out_invoice':
+        if self.round_active is True and self.type in ('in_invoice', 'out_invoice'):
             self.residual = round(abs(residual))
         else:
             self.residual = abs(residual)
@@ -109,7 +71,6 @@ class AccountRoundOff(models.Model):
         account_move = self.env['account.move']
 
         for inv in self:
-
             if not inv.journal_id.sequence_id:
                 raise UserError(_('Please define sequence on the journal related to this invoice.'))
             if not inv.invoice_line_ids:
@@ -121,7 +82,8 @@ class AccountRoundOff(models.Model):
 
             if not inv.date_invoice:
                 inv.with_context(ctx).write({'date_invoice': fields.Date.context_today(self)})
-            date_invoice = inv.date_invoice
+            if not inv.date_due:
+                inv.with_context(ctx).write({'date_due': inv.date_invoice})
             company_currency = inv.company_id.currency_id
 
             # create move lines (one per invoice line + eventual taxes and analytic lines)
@@ -134,10 +96,9 @@ class AccountRoundOff(models.Model):
 
             name = inv.name or '/'
             if inv.payment_term_id:
-                totlines = inv.with_context(ctx).payment_term_id.with_context(currency_id=company_currency.id).compute(
-                    total, date_invoice)[0]
+                totlines = inv.with_context(ctx).payment_term_id.with_context(currency_id=company_currency.id).compute(total, inv.date_invoice)[0]
                 res_amount_currency = total_currency
-                ctx['date'] = date_invoice
+                ctx['date'] = inv._get_currency_rate_date()
                 for i, t in enumerate(totlines):
                     if inv.currency_id != company_currency:
                         amount_currency = company_currency.with_context(ctx).compute(t[1], inv.currency_id)
@@ -148,31 +109,36 @@ class AccountRoundOff(models.Model):
                     res_amount_currency -= amount_currency or 0
                     if i + 1 == len(totlines):
                         amount_currency += res_amount_currency
-                    if self.round_active is True and self.type == 'out_invoice':
+
+                    # if round off is checked in customer invoice or Vendor Bills
+                    if self.round_active is True and self.type in ('in_invoice', 'out_invoice'):
+                        round_price = self.round_off_value
+                        if self.type == 'in_invoice':
+                            round_price = -self.round_off_value
                         iml.append({
                             'type': 'dest',
                             'name': name,
-                            'price': t[1]+self.round_off_value,
+                            'price': t[1] + round_price,
                             'account_id': inv.account_id.id,
                             'date_maturity': t[0],
                             'amount_currency': diff_currency and amount_currency,
                             'currency_id': diff_currency and inv.currency_id.id,
                             'invoice_id': inv.id
                         })
-                        ir_values = self.env['ir.values']
-                        acc_id = ir_values.get_default('account.config.settings', 'round_off_account')
+                        acc_id = self.env['ir.config_parameter'].sudo().get_param('foss_roundoff.round_off_account')
+                        if not acc_id:
+                            raise UserError(_('Please configure Round Off Account in Account Setting.'))
                         iml.append({
                             'type': 'dest',
                             'name': "Round off",
-                            'price': -self.round_off_value,
-                            'account_id': acc_id,
+                            'price': -round_price,
+                            'account_id': int(acc_id),
                             'date_maturity': t[0],
                             'amount_currency': diff_currency and amount_currency,
                             'currency_id': diff_currency and inv.currency_id.id,
                             'invoice_id': inv.id
                         })
                     else:
-
                         iml.append({
                             'type': 'dest',
                             'name': name,
@@ -183,26 +149,30 @@ class AccountRoundOff(models.Model):
                             'currency_id': diff_currency and inv.currency_id.id,
                             'invoice_id': inv.id
                         })
-
             else:
-                if self.round_active is True and self.type == 'out_invoice':
+                # if round off is checked in customer invoice or Vendor Bills
+                if self.round_active is True and self.type in ('in_invoice', 'out_invoice'):
+                    round_price = self.round_off_value
+                    if self.type == 'in_invoice':
+                        round_price = -self.round_off_value
                     iml.append({
                         'type': 'dest',
                         'name': name,
-                        'price': total + self.round_off_value,
+                        'price': total + round_price,
                         'account_id': inv.account_id.id,
                         'date_maturity': inv.date_due,
                         'amount_currency': diff_currency and total_currency,
                         'currency_id': diff_currency and inv.currency_id.id,
                         'invoice_id': inv.id
                     })
-                    ir_values = self.env['ir.values']
-                    acc_id = ir_values.get_default('account.config.settings', 'round_off_account')
+                    acc_id = self.env['ir.config_parameter'].sudo().get_param('foss_roundoff.round_off_account')
+                    if not acc_id:
+                        raise UserError(_('Please configure Round Off Account in Account Setting.'))
                     iml.append({
                         'type': 'dest',
                         'name': "Round off",
-                        'price': -self.round_off_value,
-                        'account_id': acc_id,
+                        'price': -round_price,
+                        'account_id': int(acc_id),
                         'date_maturity': inv.date_due,
                         'amount_currency': diff_currency and total_currency,
                         'currency_id': diff_currency and inv.currency_id.id,
@@ -219,6 +189,7 @@ class AccountRoundOff(models.Model):
                         'currency_id': diff_currency and inv.currency_id.id,
                         'invoice_id': inv.id
                     })
+
             part = self.env['res.partner']._find_accounting_partner(inv.partner_id)
             line = [(0, 0, self.line_get_convert(l, part.id)) for l in iml]
             line = inv.group_lines(iml, line)
@@ -226,7 +197,7 @@ class AccountRoundOff(models.Model):
             journal = inv.journal_id.with_context(ctx)
             line = inv.finalize_invoice_move_lines(line)
 
-            date = inv.date or date_invoice
+            date = inv.date or inv.date_invoice
             move_vals = {
                 'ref': inv.reference,
                 'line_ids': line,
