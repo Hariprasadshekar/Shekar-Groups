@@ -4,8 +4,8 @@ class ResPartners(models.Model):
 	_name = 'res.partner'
 	_inherit = 'res.partner'
 	reffer = fields.Char(string='reffer',store= True)
-	Vendor_code1 = fields.Many2one('res.partner1',string = 'Vendor Category',store = True,required = True)
-	Custumer_code1 = fields.Many2one('res.partner2',string = 'Customer Category',store = True,required = True)
+	Vendor_code1 = fields.Many2one('res.partner1',string = 'Vendor Category',store = True)
+	Custumer_code1 = fields.Many2one('res.partner2',string = 'Customer Category',store = True)
 	ratey=fields.Integer(string='rate',compute='damagey',readonly=True)
 	row=fields.Integer(string='row',compute='damagery',readonly=True)
 	umb=fields.Char(string='umb')
