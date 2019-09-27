@@ -139,14 +139,3 @@ class SaleOrder(models.Model):
 
             line.amount_in_words = number_whole+number_fract+' Only'
 
-
-# class Productpackagings(models.Model):
-#     _inherit = "product.product"
-
-#     z_contained_qty=fields.Float("Contained quantity",compute="check_contained_qty")
-
-#     @api.multi
-#     @api.depends('product_tmpl_id')
-#     def check_contained_qty(self):
-#         for line in self:
-#             line.z_contained_qty = self.env['product.packaging'].browse([('product_id','=',line.id)]).qty

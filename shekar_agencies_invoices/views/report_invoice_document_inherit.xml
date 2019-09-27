@@ -182,7 +182,7 @@ table tr td{
          <!-- <t t-if="o.company_id">
             <span t-esc ="o.company_id[id]"/>
         </t> -->
-         <t t-if="o.company_id.id == 1">
+         <t t-if="o.company_id.id == 4">
             <table class="table table-condensed">
                 <thead style="display:none;">
                             <tr>
@@ -329,7 +329,7 @@ table tr td{
                     </table>
 
                 </t>
-        <t t-if="o.company_id.id == 2">
+        <t t-if="o.company_id.id == 1">
             <table class="table table-condensed">
                 <thead style="display:none;">
                             <tr>

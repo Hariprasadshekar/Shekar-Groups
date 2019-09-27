@@ -5,7 +5,7 @@ class ResPartners(models.Model):
 	_inherit = 'res.partner'
 	reffer = fields.Char(string='reffer',store= True)
 	Vendor_code1 = fields.Many2one('res.partner1',string = 'Vendor Category',store = True)
-	Custumer_code1 = fields.Many2one('res.partner2',string = 'Customer Category',store = True)
+	Custumer_code1 = fields.Many2one('res.partner2',string = 'Customer Category',store = True,required = True)
 	ratey=fields.Integer(string='rate',compute='damagey',readonly=True)
 	row=fields.Integer(string='row',compute='damagery',readonly=True)
 	umb=fields.Char(string='umb')
@@ -74,7 +74,7 @@ class ResPartners(models.Model):
 				self.numb1 = "00"
 			if count == 4:
 				self.numb1 = "0"
-	
+
 	@api.multi
 	def customer_sequence_generator(self):
 		self.ensure_one()
@@ -128,7 +128,7 @@ class ResPartners(models.Model):
 	@api.one
 	@api.depends('ref_code')
 	def _trackcode(self):
-		self.ref = self.ref_code  
+		self.ref = self.ref_code
 	'''@api.model
 	def create(self, vals):
 		#vals['ref'] = str(self.Custumer_code1.name)+"-"+str(self.numb1)+""+str(self.row)

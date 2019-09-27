@@ -58,3 +58,5 @@ class ProductProduct(models.Model):
                           }
                 result.append(_name_get(mydict))
         return result
+
+
