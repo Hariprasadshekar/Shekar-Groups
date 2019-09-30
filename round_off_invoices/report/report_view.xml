@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+	<template id="invoice_report" inherit_id="account.report_invoice_document">
+		<xpath expr="//div[@id='total']//table" position="inside">
+            <tr class="border-black o_rounded_total">
+                <td><strong>Rounded Total</strong></td>
+                    <td class="text-right">
+                        <span t-field="o.rounded_total" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}"/>
+                    </td>
+            </tr>
+            <tr class="border-black o_round_off_value">
+                <td><strong>Round off amount</strong></td>
+                    <td class="text-right">
+                        <t t-esc="'%0.2f'%(o.round_off_value)"/>
+                    </td>
+            </tr>
+            <tr class="border-black o_round_off_value">
+                <td><strong>Amount due</strong></td>
+                    <td class="text-right">
+                        <!-- <t t-esc="'%0.2f'%(o.residual)"/> -->
+                        <span t-field="o.residual" t-options="{'widget': 'monetary', 'display_currency': o.currency_id}" />
+                    </td>
+            </tr>
+        </xpath>
+    </template>
+</odoo>
+
