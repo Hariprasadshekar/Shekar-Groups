@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  
+
+        <record model="ir.ui.view" id="view_partner_form_inherit">
+            <field name="name">res.partner.form.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/sheet/group/group/field[@name='vat']" position="after">
+                    <field name="pan_num" placeholder="e.g. ABCDE1234F" attrs="{'readonly': [('parent_id','!=',False)]}"/>
+
+                </xpath>
+
+
+
+
+            </field>
+
+        </record>
+
+        <record id="view_res_bank_form_inherit" model="ir.ui.view">
+            <field name="name">res.bank.form.inherit</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='bic']" position="after">
+                    <field name="account_type" placeholder="Enter Account Type"/>
+
+                </xpath>
+
+
+
+
+            </field>
+
+        </record>
+
+   
+
+</odoo>
