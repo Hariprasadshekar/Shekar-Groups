@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+        <template id="invisible_header" inherit_id="web.external_layout_standard">
+                <xpath expr="//div[@class='header']" position="attributes">
+                    
+                        <attribute name="style" add="display:none"/>
+                  
+            
+                </xpath>     
+        </template>
+    
+</odoo>
