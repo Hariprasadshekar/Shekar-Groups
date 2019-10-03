@@ -68,3 +68,8 @@ class SaleOrder(models.Model):
                 line.stromb = str(line.amount_stromb)+" "+" Rupees Only"
             else:
                 line.stromb = str(line.amount_stromb)+" "+" Rupees Only"
+
+
+    @api.multi
+    def print_quotation(self):
+        return self.env.ref('sale_order_template_shekar.custom_quotation_shekar').report_action(self)

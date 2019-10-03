@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+
+    <template id="external_layout_standard_inherit1" >
+        <div class="header">
+            <table class="table table-condensed table-bordered" style="height:1mm;border:1px solid black;width:100%;">
+               <tr>
+               <td style="border:1px solid black;">
+                    <div class="row">
+                        <div class="col-2" style="margin-top:13px;" >
+                            <img class="text-right" t-if="doc.company_id.logo" t-att-src="image_data_uri(doc.company_id.logo)" style="height:auto;max-width:160px;padding-left:15; float:left;z-index:9999"/>
+                            <br/>
+                        </div>
+                        <div class="col-8 text-center" style="font-size:14px;">
+                            <h3>
+                               <span style="font-size:16px;text-transform:uppercase" t-field="doc.company_id.partner_id"/>
+                            </h3>
+                            <span t-field="doc.company_id.partner_id.street"/>,<br/> 
+                            <span t-field="doc.company_id.partner_id.street2"/><br/> 
+                            <span style="text-transform:uppercase" t-field="doc.company_id.city"/>
+                            <span style="text-transform:uppercase" t-field="doc.company_id.state_id"/>,
+                            <span style="text-transform:uppercase" t-field="doc.company_id.country_id"/>-
+                            <span style="text-transform:uppercase" t-field="doc.company_id.partner_id.zip"/>
+                            <br/>
+                            <div>
+                                <t t-if="doc.company_id.company_registry" class="text-center">
+                                    <strong><t t-esc="'GSTIN'"/>:</strong>
+                                    <span t-field="doc.company_id.vat"/>
+                                    <strong><t t-esc="'CIN'"/>:</strong> 
+                                    <span t-field="doc.company_id.company_registry"/>
+                                   <strong><t t-esc="'PAN'"/>:</strong> 
+                                    <span t-field="doc.company_id.partner_id.pan_num"/>
+                                </t>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+              </tr>
+         </table>
+            
+        </div>
+
+        <div class="article o_report_layout_standard"  t-att-data-oe-model="o and o._name" t-att-data-oe-id="o and o.id" t-att-data-oe-lang="o and o.env.context.get('lang')">
+            <t t-call="web.address_layout"/>
+            <t t-raw="0"/>
+        </div>
+
+        <div class="footer o_standard_footer">
+             <div class="row">
+                   <div class="col-sm-12"  style="text-align:right;">
+                         <span>For Shekar Groups</span>
+                         <div style="padding:15px"/>
+                         <span>Authorized Signatory</span>
+                   </div>
+
+            </div>
+        </div>
+    </template>
+
+</data>
+
+</odoo>
