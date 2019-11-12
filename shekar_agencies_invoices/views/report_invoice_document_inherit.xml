@@ -177,7 +177,7 @@ table tr td{
      </div>
 
 
-     <div class="row" style="margin-top:-15px;">
+    <div class="row" style="margin-top:-15px;">
          <!-- <t t-if="o.[company_id][id] = 4"> -->
          <!-- <t t-if="o.company_id">
             <span t-esc ="o.company_id[id]"/>
@@ -372,6 +372,7 @@ table tr td{
                             <t t-set="taxableamt" t-value="0"/>
                             <t t-set="test" t-value="0"/>
                             <t t-foreach="o.invoice_line_ids" t-as="line">
+                               
                                 <t t-set="current_subtotal" t-value="current_subtotal + line.price_subtotal" groups="account.group_show_line_subtotals_tax_excluded"/>
                                 <t t-set="current_subtotal" t-value="current_subtotal + line.price_total" groups="account.group_show_line_subtotals_tax_included"/>
                                 <tr t-att-class="'bg-200 font-weight-bold' if line.display_type == 'line_section' else 'font-italic' if line.display_type == 'line_note' else ''">
@@ -475,8 +476,11 @@ table tr td{
                                             <span t-field="line.name"/>
                                         </td>
                                     </t>
-                                </tr>
 
+                                    
+                                        
+                                </tr>
+                                
                             </t>
                 </tbody>
             </table>

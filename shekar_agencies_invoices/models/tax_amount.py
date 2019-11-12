@@ -7,6 +7,7 @@ class SaleOrder(models.Model):
     amount_in_words = fields.Char(compute='_calc_amt_in_words')
     z_e_way_bill=fields.Char('E Way Bill',store=True)
     z_number_of_items=fields.Integer("Number of items")
+    z_check=fields.Boolean("Check",default=False,store=True)
 
     @api.depends('amount_in_words','amount_total','pricelist_id')
     def _calc_amt_in_words(self):
