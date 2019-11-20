@@ -2,14 +2,14 @@
 <odoo>
     <template id="custom_report_invoice_document_inherit" inherit_id="account.report_invoice_document">
 
-   
+
         <xpath expr="//table[@name='invoice_line_table']" position="replace">
-            <style> 
+            <style>
                 html {font-size:14px !important;}
                 table tr td{
                         border: none !important;
                 }
-            </style>           
+            </style>
             <div class="row">
                 <table class="table table-condensed" style="margin-top:16px;max-width:100%;border:none;">
                     <tr>
@@ -18,7 +18,7 @@
                             <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
                                 <t t-if="o.partner_id.vat">
                                     <strong>
-                                        <t t-esc="o.company_id.country_id.vat_label or 'TIN'"/>: <!-- Billing address --> 
+                                        <t t-esc="o.company_id.country_id.vat_label or 'TIN'"/>: <!-- Billing address -->
                                     </strong>
                                         <span t-field="o.partner_id.vat"/>
                                 </t>
@@ -26,7 +26,7 @@
                                <!--  <t t-if="o.partner_id.phone" style="display:none">
                                     <strong>  Ph No:</strong>
                                     <span t-field="o.partner_id.phone"/>
-                                </t>  -->           
+                                </t>  -->
                         </td>
                         <td style="width:42%;">
                             <div t-field="o.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
@@ -42,14 +42,14 @@
                                     <span t-field="o.partner_id.phone"/>
                                 </t> -->
                         </td>
-                        <td style="margin-left:100px;width:22%;">     
-                            <div style="margin-top:-2px;"> 
+                        <td style="margin-left:100px;width:22%;">
+                            <div style="margin-top:-2px;">
                                 <t class="div-move" t-if="o.date_invoice">
                                     <!-- <strong>Invoice No:</strong> -->
                                     <span t-field="o.number"/>
                                 </t>
                             </div>
-                            <div style="margin-top:40px;">                            
+                            <div style="margin-top:40px;">
                                 <t class="div-move" t-if="o.date_invoice">
                                     <!-- <strong>Invoice Date:</strong> -->
                                     <span t-field="o.date_invoice"/>
@@ -57,9 +57,9 @@
                             </div>
                             <div style="margin-top:50px;">
                                <!--  <strong>Customer Code:</strong> -->
-                                <span t-esc="o.partner_id.parent_id.ref_code"/> 
+                                <span t-esc="o.partner_id.parent_id.ref_code"/>
                             </div>
-                             
+
                         </td>
 
                     </tr>
@@ -72,18 +72,18 @@
                         <td style="visibility:hidden">
                             <div name="incoterm_id" >
                                 <strong>Shipping Terms:</strong>
-                               
+
                             </div>
                             <div name="payment_term" >
                                 <strong>Payment Terms:</strong>
-                               
+
                             </div>
                             <div name="z_e_way_bill" >
                                 <strong>E Way Bill:</strong>
-                               
+
                             </div>
                             <div name="total_items1" >
-                                <strong>Number of Items:</strong>                       
+                                <strong>Number of Items:</strong>
                             </div>
                         </td>
                         <td style="width:70%;" class='text-center'>
@@ -133,10 +133,10 @@
                             </div>
                             <div name="place_of_supply" >
                                 <strong>Place of Supply/State:</strong>
-                               
+
                             </div>
                             <div name="date_due" >
-                                <strong>Payment Due Date:</strong> 
+                                <strong>Payment Due Date:</strong>
                             </div>
                         </td>
                         <td style="width:30%;" class='text-center'>
@@ -155,7 +155,7 @@
                             <span t-esc="place_of_state"/>  -->
 
                                 <span t-field="o.partner_shipping_id.state_id"/>
-                      
+
                             </div>
                             <div name="date_due" style="margin-top:18px;">
                                 <span t-field="o.date_due"/>
@@ -172,7 +172,7 @@
             <span t-esc ="o.company_id[id]"/>
         </t> -->
     <!-- INDUSTRIAL DIVISION -->
-    <t t-if="o.company_id.id == 4">
+    <t t-if="o.company_id.id == 1">
             <table class="table table-condensed" style="margin-top:-15px;margin-left:-10px;">
                 <thead style="display:none;">
                             <tr>
@@ -190,7 +190,7 @@
                                     <span>Disc.(%)</span>
                                     <t t-set="colspan" t-value="colspan+1"/>
                                 </th>
-                                
+
                                 <th class="text-center" style="width:10%;border:1px solid black;">Amount</th>
                             </tr>
                         </thead>
@@ -248,7 +248,7 @@
                                         <td style="display:none;" t-if="display_discount" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                             <span t-field="line.discount"/>
                                         </td>
-                                    
+
                                     <t t-set="amount" t-value="amount+line.price_subtotal"/>
                                     <td class="text-right" style="width:12%;">
                                         <span t-field="line.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;False&quot;}"/>
@@ -271,12 +271,12 @@
                     </table>
                     <t t-if="check == True">
                     <div style="page-break-before:always; !important;"></div>
-                        <style> 
+                        <style>
                             html {font-size:14px !important;}
                             table tr td{
                                     border: none !important;
                             }
-                        </style>           
+                        </style>
                     <div class="row">
                         <table class="table table-condensed" style="margin-top:16px;max-width:100%;border:none;">
                             <tr>
@@ -285,7 +285,7 @@
                                     <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
                                         <t t-if="o.partner_id.vat">
                                             <strong>
-                                                <t t-esc="o.company_id.country_id.vat_label or 'TIN'"/>: <!-- Billing address --> 
+                                                <t t-esc="o.company_id.country_id.vat_label or 'TIN'"/>: <!-- Billing address -->
                                             </strong>
                                                 <span t-field="o.partner_id.vat"/>
                                         </t>
@@ -293,7 +293,7 @@
                                        <!--  <t t-if="o.partner_id.phone" style="display:none">
                                             <strong>  Ph No:</strong>
                                             <span t-field="o.partner_id.phone"/>
-                                        </t>  -->           
+                                        </t>  -->
                                 </td>
                                 <td style="width:42%;">
                                     <div t-field="o.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
@@ -309,14 +309,14 @@
                                             <span t-field="o.partner_id.phone"/>
                                         </t> -->
                                 </td>
-                                <td style="margin-left:100px;width:22%;">     
-                                    <div style="margin-top:-2px;"> 
+                                <td style="margin-left:100px;width:22%;">
+                                    <div style="margin-top:-2px;">
                                         <t class="div-move" t-if="o.date_invoice">
                                             <!-- <strong>Invoice No:</strong> -->
                                             <span t-field="o.number"/>
                                         </t>
                                     </div>
-                                    <div style="margin-top:40px;">                            
+                                    <div style="margin-top:40px;">
                                         <t class="div-move" t-if="o.date_invoice">
                                             <!-- <strong>Invoice Date:</strong> -->
                                             <span t-field="o.date_invoice"/>
@@ -324,9 +324,9 @@
                                     </div>
                                     <div style="margin-top:50px;">
                                        <!--  <strong>Customer Code:</strong> -->
-                                        <span t-esc="o.partner_id.parent_id.ref_code"/> 
+                                        <span t-esc="o.partner_id.parent_id.ref_code"/>
                                     </div>
-                                     
+
                                 </td>
 
                             </tr>
@@ -339,18 +339,18 @@
                                 <td style="visibility:hidden">
                                     <div name="incoterm_id" >
                                         <strong>Shipping Terms:</strong>
-                                       
+
                                     </div>
                                     <div name="payment_term" >
                                         <strong>Payment Terms:</strong>
-                                       
+
                                     </div>
                                     <div name="z_e_way_bill" >
                                         <strong>E Way Bill:</strong>
-                                       
+
                                     </div>
                                     <div name="total_items1" >
-                                        <strong>Number of Items:</strong>                       
+                                        <strong>Number of Items:</strong>
                                     </div>
                                 </td>
                                 <td style="width:70%;" class='text-center'>
@@ -392,14 +392,14 @@
                                 <td style="visibility:hidden">
                                     <div name="payment_term">
                                         <strong>PO Date:</strong>
-                                       
+
                                     </div>
                                     <div name="place_of_supply" >
                                         <strong>Place of Supply/State:</strong>
-                                       
+
                                     </div>
                                     <div name="date_due" >
-                                        <strong>Payment Due Date:</strong> 
+                                        <strong>Payment Due Date:</strong>
                                     </div>
                                 </td>
 
@@ -419,7 +419,7 @@
                                             <span t-esc="place_of_state"/>  -->
 
                                     <span t-field="o.partner_shipping_id.state_id"/>
-                                      
+
                                     </div>
                                     <div name="date_due" style="margin-top:18px;">
                                        <span t-field="o.date_due"/>
@@ -446,7 +446,7 @@
                                     <span>Disc.(%)</span>
                                     <t t-set="colspan" t-value="colspan+1"/>
                                 </th>
-                                
+
                                 <th class="text-center" style="width:10%;border:1px solid black;">Amount</th>
                             </tr>
                         </thead>
@@ -498,7 +498,7 @@
                                         <td style="display:none;" t-if="display_discount" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                             <span t-field="line.discount"/>
                                         </td>
-                                    
+
                                     <t t-set="amount" t-value="amount+line.price_subtotal"/>
                                     <td class="text-right" style="width:12%;">
                                         <span t-field="line.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;False&quot;}"/>
@@ -524,7 +524,7 @@
 </t>
 <!-- </div> -->
   <!-- AUTO DIVISION        -->
-            <t t-if="o.company_id.id == 1">
+            <t t-if="o.company_id.id == 2">
                 <table class="table table-condensed">
                     <thead style="display:none;">
                         <tr>
@@ -543,7 +543,7 @@
                                 <span>Disc.(%)</span>
                                 <t t-set="colspan" t-value="colspan+1"/>
                             </th>
-                       
+
                             <th class="text-center" style="width:10%;border:1px solid black;">Amount</th>
                         </tr>
                     </thead>
@@ -571,7 +571,7 @@
                                     <span t-esc="sl_no"/>
                                 </td>
                                 <t t-set="sl_no" t-value="sl_no+1"/>
-                               
+
                                 <td name="account_invoice_line_name" class="text-left" style="width:33%;">
                                     <span t-field="line.name"/>
                                 </td>
@@ -601,7 +601,7 @@
                                 <td style="display:none;" t-if="display_discount" t-attf-class="text-right {{ 'd-none d-md-table-cell' if report_type == 'html' else '' }}">
                                     <span t-field="line.discount"/>
                                 </td>
-                           
+
                                 <t t-set="amount" t-value="amount+line.price_subtotal"/>
                                     <td class="text-center" style="width:12%;">
                                         <span t-field="line.price_subtotal" t-field-options="{&quot;widget&quot;: &quot;False&quot;}"/>
@@ -617,16 +617,16 @@
                                         <span t-field="line.name"/>
                                     </td>
                                 </t>
-                               
+
                             </t>
                         </tr>
-                    
+
                     </tbody>
 
                 </table>
                 <t t-if="check == True">
                     <div style="page-break-before:always; !important;"></div>
-                        <style> 
+                        <style>
                             html {font-size:14px !important;}
                             table tr td{
                                     border: none !important;
@@ -641,7 +641,7 @@
                                     <div t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
                                         <t t-if="o.partner_id.vat">
                                             <strong>
-                                                <t t-esc="o.company_id.country_id.vat_label or 'TIN'"/>: <!-- Billing address --> 
+                                                <t t-esc="o.company_id.country_id.vat_label or 'TIN'"/>: <!-- Billing address -->
                                             </strong>
                                                 <span t-field="o.partner_id.vat"/>
                                         </t>
@@ -649,7 +649,7 @@
                                        <!--  <t t-if="o.partner_id.phone" style="display:none">
                                             <strong>  Ph No:</strong>
                                             <span t-field="o.partner_id.phone"/>
-                                        </t>  -->           
+                                        </t>  -->
                                 </td>
                                 <td style="width:42%;">
                                     <div t-field="o.partner_shipping_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}" />
@@ -665,14 +665,14 @@
                                             <span t-field="o.partner_id.phone"/>
                                         </t> -->
                                 </td>
-                                <td style="margin-left:100px;width:22%;">     
-                                    <div style="margin-top:-2px;"> 
+                                <td style="margin-left:100px;width:22%;">
+                                    <div style="margin-top:-2px;">
                                         <t class="div-move" t-if="o.date_invoice">
                                             <!-- <strong>Invoice No:</strong> -->
                                             <span t-field="o.number"/>
                                         </t>
                                     </div>
-                                    <div style="margin-top:40px;">                            
+                                    <div style="margin-top:40px;">
                                         <t class="div-move" t-if="o.date_invoice">
                                             <!-- <strong>Invoice Date:</strong> -->
                                             <span t-field="o.date_invoice"/>
@@ -680,9 +680,9 @@
                                     </div>
                                     <div style="margin-top:50px;">
                                        <!--  <strong>Customer Code:</strong> -->
-                                        <span t-esc="o.partner_id.parent_id.ref_code"/> 
+                                        <span t-esc="o.partner_id.parent_id.ref_code"/>
                                     </div>
-                                     
+
                                 </td>
 
                             </tr>
@@ -695,18 +695,18 @@
                                 <td style="visibility:hidden">
                                     <div name="incoterm_id" >
                                         <strong>Shipping Terms:</strong>
-                                       
+
                                     </div>
                                     <div name="payment_term" >
                                         <strong>Payment Terms:</strong>
-                                       
+
                                     </div>
                                     <div name="z_e_way_bill" >
                                         <strong>E Way Bill:</strong>
-                                       
+
                                     </div>
                                     <div name="total_items1" >
-                                        <strong>Number of Items:</strong>                       
+                                        <strong>Number of Items:</strong>
                                     </div>
                                 </td>
                                 <td style="width:70%;" class='text-center'>
@@ -748,14 +748,14 @@
                                 <td style="visibility:hidden">
                                     <div name="payment_term">
                                         <strong>PO Date:</strong>
-                                       
+
                                     </div>
                                     <div name="place_of_supply" >
                                         <strong>Place of Supply/State:</strong>
-                                       
+
                                     </div>
                                     <div name="date_due" >
-                                        <strong>Payment Due Date:</strong> 
+                                        <strong>Payment Due Date:</strong>
                                     </div>
                                 </td>
 
@@ -775,7 +775,7 @@
                                             <span t-esc="place_of_state"/>  -->
 
                                     <span t-field="o.partner_shipping_id.state_id"/>
-                                      
+
                                     </div>
                                     <div name="date_due" style="margin-top:18px;">
                                        <span t-field="o.date_due"/>
@@ -803,7 +803,7 @@
                                 <span>Disc.(%)</span>
                                 <t t-set="colspan" t-value="colspan+1"/>
                             </th>
-                           
+
                             <th class="text-center" style="width:10%;border:1px solid black;">Amount</th>
                         </tr>
                     </thead>
@@ -828,7 +828,7 @@
                                     <!-- </t> -->
                                 </td>
                                 <t t-set="sl_no" t-value="sl_no+1"/>
-                               
+
                                 <td name="account_invoice_line_name" class="text-left" style="width:33%;">
                                     <!-- <t t-if="line_index + 1 &gt;= 7"> -->
                                         <span t-field="line.name"/>
@@ -871,10 +871,10 @@
                                     <!-- <t t-if="line_index + 1 &gt;= 7"> -->
                                         <span t-field="line.discount"/>
                                     <!-- </t> -->
-                                </td>       
+                                </td>
                             </t>
                         </tr>
-                        
+
                     </tbody>
 
                     </table>
@@ -887,7 +887,7 @@
                                     <th style="text-decoration:underline;">Rate</th>
                                     <th style="padding:0px 5px;text-decoration:underline;">GST amount INR</th>
                                     <th style="padding:0px 5px;text-decoration:underline;">Net amount INR</th>
-                               </tr> 
+                               </tr>
 
                                 <t t-foreach="o.tax_line_ids" t-as="l">
                                     <tr>
@@ -895,9 +895,9 @@
                                             <span t-esc="l.name"/>
                                         </td>
                                         <td>
-                                            <span t-esc="l.amount_total" style="margin-left:25px"/> 
+                                            <span t-esc="l.amount_total" style="margin-left:25px"/>
                                         </td>
-                                    </tr>                                      
+                                    </tr>
                                 </t>
                             </table>
                             <table>
@@ -918,20 +918,20 @@
                         <td  style="width:260px;text-align:right;">
                             <div style="margin-right:-63px;margin-top:-26px">
                                 <span t-field="o.amount_untaxed"/>
-                            </div> 
+                            </div>
                             <div style="margin-right:-63px;margin-top:16px">
                                 <span t-field="o.amount_tax"/>
                             </div>
                             <div style="font-size:120%;font-weight:700;margin-right:-55px;margin-top:16px">
-                                <span t-field="o.amount_total"/> 
-                            </div>                   
+                                <span t-field="o.amount_total"/>
+                            </div>
                         </td>
                     </tr>
                 </table>
                     <div style="margin-bottom:-10px; position:fixed; top:1977px;">
             <!-- <div class="row"> -->
-                    <div>         
-                        <p>      
+                    <div>
+                        <p>
                             <span t-field="o.amount_in_words"/>
                         </p>
                     </div>
@@ -1002,7 +1002,7 @@
                                 </table>
                             </div>
                         </div>
-        </div> 
+        </div>
 
     </xpath>
     <!--xpath expr="//div[@class='row']" position="replace">
@@ -1010,7 +1010,7 @@
             <div name="invoice_address" class="col-xs-5 col-xs-offset-7">
                 <address t-field="o.partner_id" t-options="{&quot;widget&quot;: &quot;contact&quot;, &quot;fields&quot;: [&quot;address&quot;, &quot;name&quot;], &quot;no_marker&quot;: True}"/>
                 <div t-if="o.partner_id.vat" class="mt16">
-                    <t t-esc="o.company_id.country_id.vat_label or 'TIN'"/>: 
+                    <t t-esc="o.company_id.country_id.vat_label or 'TIN'"/>:
                     <span t-field="o.partner_id.vat"/>
                 </div>
             </div>
@@ -1081,11 +1081,11 @@
                         <span t-field="o.fiscal_position_id.note"/>
         </p>
     </xpath>
-    
+
 </template>
 <template id="l10n_in_report_invoice_document_inheritl" inherit_id="l10n_in.l10n_in_report_invoice_document_inherit">
     <xpath expr="//p[@id='total_in_words']" position="replace">
-       
+
         <p id="total_in_words">
             <!-- <div style="display:block; margin-bottom:-10px; position:fixed; bottom:199px; top:900px;"> -->
                 <table style="position:fixed;top:818px;">
@@ -1096,7 +1096,7 @@
                                     <th style="text-decoration:underline;">Rate</th>
                                     <th style="padding:0px 5px;text-decoration:underline;">GST amount INR</th>
                                     <th style="padding:0px 5px;text-decoration:underline;">Net amount INR</th>
-                               </tr> 
+                               </tr>
 
                                 <t t-foreach="o.tax_line_ids" t-as="l">
                                     <tr>
@@ -1104,9 +1104,9 @@
                                             <span t-esc="l.name"/>
                                         </td>
                                         <td>
-                                            <span t-esc="l.amount_total" style="margin-left:25px"/> 
+                                            <span t-esc="l.amount_total" style="margin-left:25px"/>
                                         </td>
-                                    </tr>                                      
+                                    </tr>
                                 </t>
                             </table>
                             <table>
@@ -1127,29 +1127,29 @@
                         <td  style="width:260px;text-align:right;">
                             <div style="margin-right:-63px;margin-top:-26px">
                                 <span t-field="o.amount_untaxed"/>
-                            </div> 
+                            </div>
                             <div style="margin-right:-63px;margin-top:16px">
                                 <span t-field="o.amount_tax"/>
                             </div>
                             <div style="font-size:120%;font-weight:700;margin-right:-55px;margin-top:16px">
-                                <span t-field="o.amount_total"/> 
-                            </div>                   
+                                <span t-field="o.amount_total"/>
+                            </div>
                         </td>
                     </tr>
                 </table>
             <!-- </div>    -->
         <div style="margin-bottom:-10px; position:fixed; top:955px;">
             <div class="row">
-                    <div>         
-                        <p>      
+                    <div>
+                        <p>
                             <span t-field="o.amount_in_words"/>
                         </p>
                     </div>
             </div>
         </div>
         </p>
-            
+
     </xpath>
-    
+
 </template>
 </odoo>
