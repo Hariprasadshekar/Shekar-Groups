@@ -1,6 +1,6 @@
 {
     'name': 'Loyalty rewards report ',
-    'version': '12.2',
+    'version': '12.3',
     'category': 'Tools',
     'summary': "This module consists, the customized Templates",
     'depends': ['account','shekar_agencies_invoices','sale_loyalty_ae'],
