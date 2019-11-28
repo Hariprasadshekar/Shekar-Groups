@@ -1,6 +1,6 @@
 {
     'name': 'Invoice report Template Shekar',
-    'version': '12.1.0.1',
+    'version': '12.1.0.2',
     'description': """This module consists, the customized invoice Templates""",
     'category': 'Localization',
     'author': 'Prixgen Tech Solutions Pvt Ltd.',

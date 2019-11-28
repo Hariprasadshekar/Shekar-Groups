@@ -251,13 +251,13 @@
                                     <t t-set="test" t-value="0"/>
                                     <t t-set="check" t-value="True"/>
                                     <tr t-foreach="o.invoice_line_ids" t-as="line">
-                                        <t t-if="sl_no &lt;= 7">
+                                        <t t-if="sl_no &lt;= 9">
                                             <t t-set="check" t-value="False"/>
                                         </t>
                                         <t t-else="">
                                             <t t-set="check" t-value="True"/>
                                         </t>
-                                        <t t-if="line_index + 1 &lt;= 7">
+                                        <t t-if="line_index + 1 &lt;= 9">
                                             <!-- <span t-esc="line_index + 1 "/> -->
                                             <t t-if="not line.display_type" name="account_invoice_line_accountable">
                                                 <td class="text-left" style="width:5%;">
@@ -495,7 +495,7 @@
                                 </thead>
                                 <tbody class="invoice_tbody">
                                     <t t-set="current_subtotal" t-value="0"/>
-                                    <t t-set="sl_no" t-value="8"/>
+                                    <t t-set="sl_no" t-value="10"/>
                                     <t t-set="test_variable" t-value="0"/>
                                     <t t-set="total_cgst" t-value="0.0"/>
                                     <t t-set="total_sgst" t-value="0.0"/>
@@ -505,7 +505,7 @@
                                     <t t-set="test" t-value="0"/>
                                     <t t-set="check" t-value="True"/>
                                     <tr t-foreach="o.invoice_line_ids" t-as="line">
-                                        <t t-if="line_index + 1 &gt;= 8">
+                                        <t t-if="line_index + 1 &gt;= 10">
                                             <t t-if="not line.display_type" name="account_invoice_line_accountable">
                                                 <td class="text-left" style="width:5%;">
                                                     <span t-esc="sl_no"/>
@@ -661,13 +661,13 @@
                                     <t t-set="test" t-value="0"/>
                                     <t t-set="check" t-value="True"/>
                                     <tr t-foreach="o.invoice_line_ids" t-as="line">
-                                        <t t-if="sl_no &lt;= 6">
+                                        <t t-if="sl_no &lt;= 9">
                                             <t t-set="check" t-value="False"/>
                                         </t>
                                         <t t-else="">
                                             <t t-set="check" t-value="True"/>
                                         </t>
-                                        <t t-if="line_index + 1 &lt;= 7">
+                                        <t t-if="line_index + 1 &lt;= 9">
                                             <!-- <span t-esc="line_index"/>                        -->
                                             <td class="text-center" style="width:7%;">
                                                 <span t-esc="sl_no"/>
@@ -915,7 +915,7 @@
                                 </thead>
                                 <tbody class="invoice_tbody">
                                     <t t-set="current_subtotal" t-value="0"/>
-                                    <t t-set="sl_no" t-value="8"/>
+                                    <t t-set="sl_no" t-value="10"/>
                                     <t t-set="test_variable" t-value="0"/>
                                     <t t-set="total_cgst" t-value="0.0"/>
                                     <t t-set="total_sgst" t-value="0.0"/>
@@ -925,7 +925,7 @@
                                     <t t-set="test" t-value="0"/>
                                     <t t-set="check" t-value="True"/>
                                     <tr t-foreach="o.invoice_line_ids" t-as="line">
-                                        <t t-if="line_index + 1 &gt;= 8">
+                                        <t t-if="line_index + 1 &gt;= 10">
                                             <!-- <span t-esc="line_index"/>                        -->
                                             <td class="text-center" style="width:7%;">
                                                 <span t-esc="sl_no"/>
