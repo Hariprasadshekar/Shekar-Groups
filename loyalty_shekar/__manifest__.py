@@ -3,7 +3,7 @@
     'version': '12.3',
     'category': 'Tools',
     'summary': "This module consists, the customized Templates",
-    'depends': ['account','shekar_agencies_invoices','sale_loyalty_ae'],
+    'depends': ['account','shekar_custom_reports','sale_loyalty_ae'],
     'website': 'http://www.prixgen.com',
     'data': [
              # 'views/custom_web.xml',
@@ -17,3 +17,4 @@
     'auto_install': False,
     'application': True,
 }
+
