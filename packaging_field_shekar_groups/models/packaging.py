@@ -5,9 +5,9 @@ from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 class Packagingsales(models.Model):
     _inherit='sale.order.line'
 
-    z_no_of_package = fields.Float(string='No of Package',default=0.0,compute="_get_package_name_no_packages")
-    z_package = fields.Char(string="Package",compute="_get_package_name_no_packages")
-    z_scheme = fields.Char(string="Scheme",compute="_get_loyalty_name")
+    z_no_of_package = fields.Float(string='No of Package',default=0.0,compute="_get_package_name_no_packages",store=True)
+    z_package = fields.Char(string="Package",compute="_get_package_name_no_packages",store=True)
+    z_scheme = fields.Char(string="Scheme",compute="_get_loyalty_name",store=True)
 
     @api.depends('product_id', 'name')
     def _get_package_name_no_packages(self):
@@ -28,9 +28,9 @@ class Packagingsales(models.Model):
 class Packaginginvoice(models.Model):
     _inherit='account.invoice.line'
 
-    zi_no_of_package = fields.Float(string='No of Package',default=0.0,compute="_get_package_name_no_packages_invoice")
-    zi_package = fields.Char(string="Package",compute="_get_package_name_no_packages_invoice")
-    zi_scheme = fields.Char(string="Scheme",compute="_get_loyalty_name_invoice")
+    zi_no_of_package = fields.Float(string='No of Package',default=0.0,compute="_get_package_name_no_packages_invoice",store=True)
+    zi_package = fields.Char(string="Package",compute="_get_package_name_no_packages_invoice",store=True)
+    zi_scheme = fields.Char(string="Scheme",compute="_get_loyalty_name_invoice",store=True)
 
     @api.depends('product_id', 'name')
     def _get_package_name_no_packages_invoice(self):
