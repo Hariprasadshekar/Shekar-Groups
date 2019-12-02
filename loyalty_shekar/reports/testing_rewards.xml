@@ -19,7 +19,7 @@
     <report
 
         id="loyalty_rewards_shekar"
-        string="Rewards Shekar groups"
+        string="Rewards Form"
         model="account.invoice"
         name="loyalty_shekar.report_invoice_document_rewards"
         file="loyalty_shekar.report_invoice_document_rewards"
@@ -55,7 +55,7 @@
                                             }
                              </style>
                             <div class="row">
-                                <table class="table table-condensed" style="margin-top:46px;max-width:100%;">
+                                <table class="table table-condensed" style="margin-top:26px;max-width:100%;">
                                     <tr>
                                         <td style="width:10%;"></td>
                                         <td style="width:40%;">
@@ -85,27 +85,27 @@
                                                     <span t-field="o.date_invoice"/>
                                                 </t>
                                             </div>
-                                            <div class="text-right" style="margin-top:24px;">
+                                            <div class="text-right" style="margin-top:15px;">
                                                 <t t-set="executive" t-value="o.env['res.users'].search([('id', '=',o.user_id.id)])"/> 
                                                 <t t-esc="executive.login"/>
                                             </div>
                                         </td>
                                         <td style="width:25%;border:1px solid black;" class="text-center">     
-                                            <div style="margin-top:-4px;">
+                                            <div style="margin-top:-14px;margin-left:14px">
                                                 <t t-set="prv_points" t-value="0"/>
                                                  <t t-foreach="o.env['loyalty.earning.report'].search([('partner_id', '=',o.partner_id.id),('status','=','open'),('invoice_id','!=',o.id)])" t-as="obj">
                                                     <t t-set="prv_points" t-value="prv_points + obj.points"/>
                                                 </t>
                                                 <t t-esc="'%.0f'%(prv_points)"/> 
                                             </div>
-                                            <div style="margin-top:10px;">                            
+                                            <div style="margin-top:10px;margin-left:14px">                            
                                                 <t t-set="current_points" t-value="0"/>
                                                  <t t-foreach="o.env['loyalty.earning.report'].search([('invoice_id', '=',o.id),('status','=','open')])" t-as="cpts">
                                                     <t t-set="current_points" t-value="current_points + cpts.points"/>
                                                 </t>
                                                 <t t-esc="'%.0f'%(current_points)"/>
                                             </div>
-                                            <div style="margin-top:10px;">                            
+                                            <div style="margin-top:10px;margin-left:14px">                            
                                                 <t t-set="total_points" t-value="current_points + prv_points"/>
                                                 <t t-esc="'%.0f'%(total_points)"/>
                                             </div>
@@ -121,7 +121,7 @@
             <t t-esc="executive.login"/>
     </div> -->
 
-                            <table class="table table-sm o_main_table" name="invoice_line_table" style="position:fixed;top:199px;">
+                            <table class="table table-sm o_main_table" name="invoice_line_table" style="position:fixed;top:190px;">
                                 <thead style="display:none;">
                                     <tr>
                                         <!-- TODO: remove in master -->
@@ -157,8 +157,8 @@
                                                     <span t-esc="sl_no"/>
                                                 </td>
                                                 <t t-set="sl_no" t-value="sl_no+1"/>
-                                                <td></td>
-                                                <td style="width:40%;">
+                                                <td style="width:2%;"></td>
+                                                <td style="width:38%;">
                                                     <span t-field="line.name"/>
                                                 </td>
                                                 
@@ -182,7 +182,7 @@
                                     </t>
                                 </tbody>
                             </table>
-                            <table class="table table-sm o_main_table" style=" position:fixed;max-width:100%;top:362px;">
+                            <table class="table table-sm o_main_table" style=" position:fixed;max-width:100%;top:344px;">
                                 <tr>
                                     <td class="text-center" style="width:80%;border:1px solid">
                                         <t t-esc="o.points_in_words"/> 
