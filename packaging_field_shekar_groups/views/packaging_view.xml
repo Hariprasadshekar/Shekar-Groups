@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="packaging_field_view">
+            <field name="name">packaging.field.model</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>    
+            <field name="arch" type="xml">
+              <xpath expr="//tree//field[@name='product_uom_qty']" position="after">                
+                  <field name="z_no_of_package" attrs="{'column_invisible':[('parent.company_id','=',1)]}"/><!-- If company id becomes 1 then field is column_invisible -->
+                  <field name="z_package" attrs="{'column_invisible':[('parent.company_id','=',1)]}"/>
+              </xpath>
+              <xpath expr="//tree//field[@name='tax_id']" position="after">                
+                  <field name="z_scheme"  attrs="{'column_invisible':[('parent.company_id','=',1)]}"/>
+              </xpath>
+            </field>                   
+        </record>
+
+        <record model="ir.ui.view" id="packaging_field_view_invoice">
+            <field name="name">packaging.field.model.invoice</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>    
+            <field name="arch" type="xml">
+              <xpath expr="//tree//field[@name='quantity']" position="after">                
+                  <field name="zi_no_of_package" attrs="{'column_invisible':[('parent.company_id','=',1)]}"/>
+                  <field name="zi_package" attrs="{'column_invisible':[('parent.company_id','=',1)]}"/>
+              </xpath>
+              <xpath expr="//tree//field[@name='invoice_line_tax_ids']" position="after">                
+                    <field name="zi_scheme" attrs="{'column_invisible':[('parent.company_id','=',1)]}"/>
+              </xpath>
+            </field>                   
+        </record>
+    </data>
+</odoo>     

@@ -21,11 +21,11 @@ class SaleOrders(models.Model):
                 ,('status','=','open')])
             for l in val:
                 var += l.points
-                line.z_inv_total_points=var 
+                line.z_inv_total_points = var 
 
     @api.onchange('z_inv_total_points')
     def do_points(self):
-        self.points_in_words=num2words(self.z_inv_total_points,lang='en_IN') + ' points only'
+        self.points_in_words=num2words(self.z_inv_total_points,lang='en_IN').title() + ' points only'
 
     # @api.depends('amount_in_words','amount_total','pricelist_id')
     # def _calc_amt_in_words(self):
